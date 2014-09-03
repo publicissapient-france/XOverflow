@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.function.Function;
+import java.util.stream.Stream;
 
 /**
  * Created by arnaud on 03/09/2014.
@@ -41,7 +42,7 @@ public class ESPostRepositoryService implements PostRepositoryService {
         List<Post> res = new ArrayList<>();
         JsonObject response = esApiService.listPost();
 
-        JsonArray jsonPosts = response.get("hits").getAsJsonObject().get("hits").getAsJsonArray();
+        JsonArray jsonPosts = extractPostsJson(response);
 
         Function<JsonObject, Post> convertJsonToPost = convertJsonToPost();
 
@@ -57,9 +58,27 @@ public class ESPostRepositoryService implements PostRepositoryService {
         return res;
     }
 
+    private static JsonArray extractPostsJson(JsonObject response) {
+        return response.get("hits").getAsJsonObject().get("hits").getAsJsonArray();
+    }
+
     @Override
     public Post findPost(String id) {
-        return null;
+        JsonObject response = esApiService.getPost("_id:" + id);
+
+        JsonArray jsonPosts = extractPostsJson(response);
+
+        Function<JsonObject, Post> convertJsonToPost = convertJsonToPost();
+        Post res = null;
+        Iterator<JsonElement> iterator = jsonPosts.iterator();
+        while (iterator.hasNext()) {
+            JsonElement jsonPost = iterator.next();
+            JsonObject jsonObject = jsonPost.getAsJsonObject();
+            res = convertJsonToPost.apply(jsonObject.get("_source").getAsJsonObject());
+            res.setId(jsonObject.get("_id").getAsString());
+
+        }
+        return res;
     }
 
     private static Function<JsonObject, Post> convertJsonToPost() {

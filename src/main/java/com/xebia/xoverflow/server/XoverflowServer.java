@@ -27,8 +27,14 @@ public class XoverflowServer {
 
         Node node = graph.get(Node.class);
         node.start();
+
+
         XoverflowServer xoverflowServer = graph.get(XoverflowServer.class);
+
+
         xoverflowServer.runServer();
+
+
     }
 
 
@@ -68,6 +74,13 @@ public class XoverflowServer {
             post.setId("azertyuytrez");
             return post;
             //  return postToJson(post);
+        });
+
+        get("/post/:id", (request, response) -> {
+            Post res;
+            String id = request.params("id");
+            res = repositoryService.findPost(id);
+            return postToJson(res);
         });
 
         get("/hello", (request, response) -> "Hello World!");
