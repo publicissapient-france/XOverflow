@@ -30,13 +30,7 @@ public class XoverflowServer {
         Node node = graph.get(Node.class);
         node.start();
 
-
-        XoverflowServer xoverflowServer = graph.get(XoverflowServer.class);
-
-
-        xoverflowServer.runServer();
-
-
+        graph.get(XoverflowServer.class).runServer();
     }
 
     @Inject
