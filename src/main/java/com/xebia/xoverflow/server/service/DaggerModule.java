@@ -30,6 +30,8 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.elasticsearch.action.admin.indices.create.CreateIndexRequestBuilder;
 import org.elasticsearch.node.Node;
 import org.elasticsearch.node.NodeBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import retrofit.RestAdapter;
 import retrofit.converter.GsonConverter;
 
@@ -47,6 +49,8 @@ import java.util.concurrent.ExecutionException;
 }, library = true)
 public class DaggerModule {
 
+
+    private static final Logger log = LoggerFactory.getLogger(DaggerModule.class);
 
     @Provides @Singleton ObjectMapper provideJacksonMapper() {
         return new ObjectMapper();
@@ -91,8 +95,11 @@ public class DaggerModule {
                 "}");
         try {
             posts.execute().get();
-        } catch (ExecutionException|InterruptedException e) {
+
+        } catch (InterruptedException e) {
              throw new RuntimeException(e);
+        } catch (ExecutionException e) {
+            log.error("index creation failed", e);
         }
         return res;
     }
