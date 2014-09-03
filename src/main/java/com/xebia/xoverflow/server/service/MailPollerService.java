@@ -1,15 +1,24 @@
 package com.xebia.xoverflow.server.service;
 
+import com.xebia.xoverflow.server.model.Post;
 import spark.utils.IOUtils;
 
 import javax.mail.*;
-import javax.mail.internet.MimeMessage;
+import java.util.List;
 import java.util.Properties;
 
 /**
  * Created by jpthiery on 03/09/2014.
  */
 public class MailPollerService {
+
+
+    private final PostRepositoryService postRepositoryService;
+
+    public MailPollerService(PostRepositoryService postRepositoryService) {
+        this.postRepositoryService = postRepositoryService;
+    }
+
 
     public void poll() {
 
@@ -31,22 +40,49 @@ public class MailPollerService {
 
             store = session.getStore(new URLName("pop3://thiery.in"));
 
-            store.connect("xoverflow@thiery.in", "");
+            String password = System.getProperty("mail.password");
+
+            store.connect("xoverflow@thiery.in", password);
 
             defaultFolder = store.getDefaultFolder();
 
-            System.out.println("defaultFolder : " + defaultFolder.getName());
-
-
-            for (Folder folder : defaultFolder.list()) {
-
-                System.out.println(folder.getName());
-
-            }
-
             inbox = defaultFolder.getFolder("INBOX");
 
-            printMessages(inbox);
+            try {
+
+                inbox.open(Folder.READ_WRITE);
+                int count = inbox.getMessageCount();
+                int unread = inbox.getUnreadMessageCount();
+
+                for (int i = 1; i <= count; i++) {
+
+                    Message message = inbox.getMessage(i);
+                    Post post = new Post();
+
+                    post.setSubject(message.getSubject());
+                    post.setUserName(message.getFrom()[0].toString());
+
+                    Address[] addresses = message.getFrom();
+                    for (Address address : addresses) {
+                        System.out.println("\t" + address);
+                    }
+
+                    Multipart mp = (Multipart) message.getContent();
+                    String content = IOUtils.toString(mp.getBodyPart(0).getInputStream());
+                    post.setBody(content);
+
+                    postRepositoryService.create(post);
+
+                    message.setFlag(Flags.Flag.DELETED,true);
+
+                }
+
+
+            } catch (Exception e) {
+
+                e.printStackTrace();
+
+            }
 
         } catch (Exception e) {
 
@@ -76,90 +112,6 @@ public class MailPollerService {
 
     }
 
-    private static void printMessages(Folder folder) {
-
-        try {
-
-            folder.open(Folder.READ_ONLY);
-
-            int count = folder.getMessageCount();
-
-            int unread = folder.getUnreadMessageCount();
-
-            System.out.println("Il y a " + count + " messages, dont " + unread + " non lus.");
-
-            for (int i = 1; i <= count; i++) {
-
-
-                Message message = folder.getMessage(i);
-
-                System.out.println("Message n° " + i);
-
-                System.out.println("Sujet : " + message.getSubject());
-
-
-                System.out.println("Expéditeur : ");
-
-                Address[] addresses = message.getFrom();
-
-                for (Address address : addresses) {
-
-                    System.out.println("\t" + address);
-
-                }
-
-
-                System.out.println("Destinataires : ");
-
-                addresses = message.getRecipients(Message.RecipientType.TO);
-
-                if (addresses != null) {
-
-                    for (Address address : addresses) {
-
-                        System.out.println("\tTo : " + address);
-
-                    }
-
-                }
-
-                addresses = message.getRecipients(MimeMessage.RecipientType.CC);
-
-                if (addresses != null) {
-
-                    for (Address address : addresses) {
-
-                        System.out.println("\tCopie : " + address);
-
-                    }
-
-                }
-
-
-                System.out.println("Content : -- ");
-
-                Multipart mp = (Multipart) message.getContent();
-                int mp_count = mp.getCount();
-                System.out.println(IOUtils.toString(mp.getBodyPart(1).getInputStream()));
-
-
-
-                //System.out.println(IOUtils.toString(message.getInputStream()));
-
-                //System.out.println(message.getContent().toString());
-
-
-            }
-
-
-        } catch (Exception e) {
-
-            e.printStackTrace();
-
-        }
-
-    }
-
     private static void close(Folder folder) {
 
         if (folder != null && folder.isOpen()) {
@@ -178,9 +130,5 @@ public class MailPollerService {
 
     }
 
-    public static void main(String[] args) {
-        MailPollerService mailPollerService = new MailPollerService();
-        mailPollerService.poll();
-    }
 
 }
