@@ -55,8 +55,6 @@ public class XoverflowServer {
         // Create a post
         put("/post", (request, response) -> {
             Post post = parsePostFromRequest(request);
-            post = repositoryService.create(post);
-
             return postToJson(repositoryService.create(post));
         });
 
