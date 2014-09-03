@@ -25,6 +25,6 @@ public class ESPostRepositoryService implements PostRepositoryService {
     }
 
     @Override public List<Post> listLast10Posts() {
-        Implement
+        return null;
     }
 }
