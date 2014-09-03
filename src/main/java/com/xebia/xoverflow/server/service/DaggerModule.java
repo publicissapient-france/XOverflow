@@ -16,17 +16,30 @@
  */
 package com.xebia.xoverflow.server.service;
 
+import com.google.gson.FieldNamingPolicy;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.internal.bind.DateTypeAdapter;
+import com.xebia.xoverflow.server.XoverflowServer;
 import com.xebia.xoverflow.server.model.Post;
+import com.xebia.xoverflow.server.service.es.ESPostRepositoryService;
 import dagger.Module;
 import dagger.Provides;
 import org.codehaus.jackson.map.ObjectMapper;
+import retrofit.RestAdapter;
+import retrofit.converter.GsonConverter;
 
 import javax.inject.Singleton;
+import java.util.Date;
 
 /**
  * Created by slemesle on 03/09/2014.
  */
-@Module
+@Module(complete = false,
+        injects = {
+            ESPostRepositoryService.class,
+            XoverflowServer.class
+})
 public class DaggerModule {
 
 
@@ -36,11 +49,18 @@ public class DaggerModule {
 
 
     @Provides @Singleton PostRepositoryService providePostRepository(){
-        return  new PostRepositoryService() {
-            @Override public Post create(Post post) {
-                return null;
-            }
-        };
+        return new ESPostRepositoryService();
+    }
+
+    @Provides @Singleton RestAdapter provideRestAdapter(){
+
+        Gson gson = new GsonBuilder()
+                .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+                .registerTypeAdapter(Date.class, new DateTypeAdapter())
+                .create();
+
+        return new RestAdapter.Builder().setEndpoint("http://127.0.0.1:9200/")
+                .setConverter(new GsonConverter(gson)).build();
     }
 
 
