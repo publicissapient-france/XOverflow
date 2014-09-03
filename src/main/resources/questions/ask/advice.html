@@ -35,29 +35,26 @@
 <!-- Main jumbotron for a primary marketing message or call to action -->
 <div class="jumbotron">
     <div class="container">
-        <h1>XOverFlow</h1>
+        <h1>Post your questions !</h1>
     </div>
 </div>
 !
 <div class="container" ng-controller="PostController">
-    <div class="container">
-        <a href="/questions/ask/advice.html" class="btn btn-primary" >Post a question</a>
-    </div>
+    <form class="form-control" action="">
+        Your name:<input class="form-control" type="text"><br>
+        Your subject:<input class="form-control" type="text"><br>
+        Your question: <textarea>
+        </textarea>
+        <br>
+        <input type="submit">
+    </form>
 
-    <hr/>
-
-    <div class="container">
-        <ul class="list-group">
-            <li ng-repeat="post in posts" class="list-group-item">{{post.subject}}</li>
-        </ul>
-    </div>
-
+    <br>
 
     <footer>
         <p>&copy; Xebia</p>
     </footer>
-</div>
-<!-- /container -->
+</div> <!-- /container -->
 
 
 <!-- Bootstrap core JavaScript
