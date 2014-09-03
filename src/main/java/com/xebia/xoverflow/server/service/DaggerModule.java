@@ -86,7 +86,8 @@ public class DaggerModule {
         CreateIndexRequestBuilder posts = res.client().admin().indices().prepareCreate("posts");
 
         posts.setSource("    \"settings\" : {\n" +
-                "        \"number_of_shards\" : 1\n" +
+                "        \"number_of_shards\" : 1," +
+                "           refresh_interval : 100ms \n" +
                 "    },\n" +
                 "    \"mappings\" : {\n" +
                 "        \"post\" : {\n" +
