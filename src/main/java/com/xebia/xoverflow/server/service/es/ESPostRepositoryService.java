@@ -20,8 +20,12 @@ public class ESPostRepositoryService implements PostRepositoryService {
 
     public static final String INDEX_PATH = "/posts/post/";
 
+    public ESApiService esApiService;
+
     @Inject
-    protected ESApiService esApiService;
+    public ESPostRepositoryService(ESApiService esApiService) {
+        this.esApiService = esApiService;
+    }
 
 
     @Override
@@ -53,14 +57,19 @@ public class ESPostRepositoryService implements PostRepositoryService {
         return res;
     }
 
+    @Override
+    public Post findPost(String id) {
+        return null;
+    }
+
     private static Function<JsonObject, Post> convertJsonToPost() {
         return new Function<JsonObject, Post>() {
             @Override
             public Post apply(JsonObject json) {
                 Post res = new Post();
                 res.setSubject(json.get("subject").getAsString());
-                res.setSubject(json.get("body").getAsString());
-                res.setSubject(json.get("userName").getAsString());
+                res.setBody(json.get("body").getAsString());
+                res.setUserName(json.get("userName").getAsString());
 
                 return res;
             }

@@ -51,8 +51,8 @@ public class DaggerModule {
     }
 
 
-    @Provides @Singleton PostRepositoryService providePostRepository(){
-        return new ESPostRepositoryService();
+    @Provides @Singleton PostRepositoryService providePostRepository(ESApiService esApiService){
+        return new ESPostRepositoryService(esApiService);
     }
 
     @Provides @Singleton
