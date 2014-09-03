@@ -10,6 +10,8 @@ import spark.Request;
 
 import javax.inject.Inject;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static spark.Spark.*;
@@ -54,7 +56,15 @@ public class XoverflowServer {
 
             post = repositoryService.create(post);
 
-            return postToJson(post);
+            post = new Post();
+            post.setSubject("Qui a gagné le Hackathon ?");
+            post.setBody("Je voudrais connaitre l'identité du gagnant du Hackathon :)");
+            post.setDate(new Date());
+            post.setUserName("rbung");
+            post.setAnswers(new ArrayList<>());
+            post.setId("azertyuytrez");
+            return post;
+          //  return postToJson(post);
         });
 
         get("/hello", (request, response) -> "Hello World!");
