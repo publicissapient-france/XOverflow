@@ -120,7 +120,7 @@ public class MailPollerService {
 
             try {
 
-                folder.close(false); // false -> On n'efface pas les messages marqués DELETED
+                folder.close(true); // true -> On n'efface les messages marqués DELETED
 
             } catch (Exception e) {
 
