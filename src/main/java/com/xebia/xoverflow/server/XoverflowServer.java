@@ -6,6 +6,7 @@ import com.xebia.xoverflow.server.service.DaggerModule;
 import com.xebia.xoverflow.server.service.PostRepositoryService;
 import dagger.ObjectGraph;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.elasticsearch.node.Node;
 import spark.Request;
 
 import javax.inject.Inject;
@@ -24,9 +25,18 @@ public class XoverflowServer {
     public static void main(String[] args) {
         ObjectGraph graph = ObjectGraph.create(DaggerModule.class);
 
+        Node node = graph.get(Node.class);
+        node.start();
+
+
         XoverflowServer xoverflowServer = graph.get(XoverflowServer.class);
 
+
+
+
         xoverflowServer.runServer();
+
+        node.stop();
     }
 
 
@@ -82,7 +92,7 @@ public class XoverflowServer {
             post.setDate(new Date());
             post.setUserName("rbung");
             post.setAnswers(new ArrayList<>());
-            post.setId("azertyuytrez");
+            post.setId("azertyuytrez"+i);
             res.add(post);
         }
         return res;

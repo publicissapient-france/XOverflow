@@ -26,6 +26,8 @@ import com.xebia.xoverflow.server.service.es.ESPostRepositoryService;
 import dagger.Module;
 import dagger.Provides;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.elasticsearch.node.Node;
+import org.elasticsearch.node.NodeBuilder;
 import retrofit.RestAdapter;
 import retrofit.converter.GsonConverter;
 
@@ -38,8 +40,8 @@ import java.util.Date;
 @Module(complete = false,
         injects = {
             ESPostRepositoryService.class,
-            XoverflowServer.class
-})
+            XoverflowServer.class, Node.class
+}, library = true)
 public class DaggerModule {
 
 
@@ -63,5 +65,11 @@ public class DaggerModule {
                 .setConverter(new GsonConverter(gson)).build();
     }
 
+    @Provides @Singleton Node provideEsNode(){
+        Node res;
+
+        res = NodeBuilder.nodeBuilder().data(true).clusterName("xoverflow").local(true).node();
+        return res;
+    }
 
 }
