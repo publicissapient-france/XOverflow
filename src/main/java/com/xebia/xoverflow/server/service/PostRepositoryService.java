@@ -40,4 +40,6 @@ public interface PostRepositoryService {
     Post findPost(String id);
 
     Post updatePost(Post post);
+
+    List<Post> searchPosts(String queryString);
 }

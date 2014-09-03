@@ -85,6 +85,15 @@ public class XoverflowServer {
 
         ExecutorService pool = Executors.newScheduledThreadPool(1);
         pool.submit(new PollerTask(mailPollerService));
+
+
+        get("/search/:query", (request, response) -> {
+            List<Post> res;
+            String queryString = request.params("query");
+            res = repositoryService.searchPosts(queryString);
+            return postToJson(res);
+        });
+
     }
 
     private Post parsePostFromRequest(Request request) {

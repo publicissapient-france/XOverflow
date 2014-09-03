@@ -11,6 +11,10 @@ app.config(['$routeProvider',
                 templateUrl: 'template/posts.html',
                 controller: 'PostsController'
             }).
+            when('/posts/:query', {
+                templateUrl: 'template/posts.html',
+                controller: 'PostsController'
+            }).
             when('/post/edit', {
                 templateUrl: 'template/postForm.html',
                 controller: 'PostsController'
@@ -61,10 +65,29 @@ postControllers.controller('PostsController', ['$scope', '$http', '$routeParams'
         }
 
         $scope.initposts = function() {
-            var response = $http.get("/posts");
-            response.success(function (data){
-                $scope.posts = data;
-            })
+
+            if ($routeParams.query != null){
+                var response = $http.get("/search/"+ $routeParams.query);
+
+                response.success(function (data){
+                    $scope.posts = data;
+                })
+
+            } else {
+                var response = $http.get("/posts");
+                response.success(function (data){
+                    $scope.posts = data;
+                })
+            }
+
         }
+
+    $scope.query = "";
+    $scope.search = function(query){
+
+
+        $location.path("/posts/"+query);
+
+    }
 
     }]);

@@ -29,6 +29,13 @@
                 <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" href="#">XOverFlow</a>
+
+            <form class="navbar-form navbar-left" role="search" ng-controller="PostsController">
+                <div class="form-group">
+                    <input type="text" ng-model="query" name="query" class="form-control" placeholder="Search">
+                </div>
+                <input ng-click="search(query)" type="submit" class="btn btn-default">
+            </form>
         </div>
     </div>
 </div>

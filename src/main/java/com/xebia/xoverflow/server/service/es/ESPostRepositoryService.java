@@ -1,5 +1,6 @@
 package com.xebia.xoverflow.server.service.es;
 
+import com.google.common.base.Joiner;
 import com.google.common.collect.Iterables;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -14,7 +15,6 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.function.Function;
-import java.util.stream.Stream;
 
 /**
  * Created by arnaud on 03/09/2014.
@@ -104,4 +104,29 @@ public class ESPostRepositoryService implements PostRepositoryService {
 
     }
 
+    @Override public List<Post> searchPosts(String queryString) {
+
+        List<Post> res = new ArrayList<>();
+
+        String[] terms = queryString.split(" ");
+
+        String query = Joiner.on("* AND *").join(terms);
+
+        JsonObject response = esApiService.searchPost("subject:(*" + query + "*)");
+
+        JsonArray jsonPosts = extractPostsJson(response);
+
+        Function<JsonObject, Post> convertJsonToPost = convertJsonToPost();
+
+        Iterator<JsonElement> iterator = jsonPosts.iterator();
+        while (iterator.hasNext()) {
+            JsonElement jsonPost = iterator.next();
+            JsonObject jsonObject = jsonPost.getAsJsonObject();
+            Post post = convertJsonToPost.apply(jsonObject.get("_source").getAsJsonObject());
+            post.setId(jsonObject.get("_id").getAsString());
+            res.add(post);
+        }
+
+        return res;
+    }
 }
