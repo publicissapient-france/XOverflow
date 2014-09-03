@@ -1,0 +1,22 @@
+<div class="jumbotron">
+    <div class="container">
+        <h1>{{currentpost.subject}}</h1>
+    </div>
+</div>
+
+<div class="container" ng-init="viewPost()">
+    <div class="container">
+        {{currentpost.body}}
+    </div>
+    <div class="container">
+        {{currentpost.userName}}
+    </div>
+    <div class="container">
+        {{currentpost.date}}
+    </div>
+    <br>
+
+    <footer>
+        <p>&copy; Xebia</p>
+    </footer>
+</div>

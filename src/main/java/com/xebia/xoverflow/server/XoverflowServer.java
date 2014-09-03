@@ -55,6 +55,7 @@ public class XoverflowServer {
         // Create a post
         put("/post", (request, response) -> {
             Post post = parsePostFromRequest(request);
+            post = repositoryService.create(post);
 
             return postToJson(repositoryService.create(post));
         });
@@ -62,8 +63,8 @@ public class XoverflowServer {
         put("/post/:id/answer", (request, response) -> {
             final Post post = repositoryService.findPost(request.params("id"));
             post.getAnswers().add(parseAnswerFromRequest(request));
-//            repositoryService.
-            return null;
+
+            return postToJson(post);
         });
 
         get("/post/:id", (request, response) -> {
