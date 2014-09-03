@@ -1,5 +1,6 @@
 package com.xebia.xoverflow.server.service.es;
 
+import com.google.common.collect.Iterables;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -19,7 +20,6 @@ import java.util.stream.Stream;
  * Created by arnaud on 03/09/2014.
  */
 public class ESPostRepositoryService implements PostRepositoryService {
-
 
     public static final String INDEX_PATH = "/posts/post/";
 
@@ -84,6 +84,14 @@ public class ESPostRepositoryService implements PostRepositoryService {
 
         }
         return res;
+    }
+
+    @Override
+    public Post updatePost(Post post) {
+        Iterables.getLast(post.getAnswers()).setDate(new Date());
+        JsonObject response = esApiService.updatePost(post, post.getId());
+        post.setId(response.get("_id").getAsString());
+        return post;
     }
 
     private Function<JsonObject, Post> convertJsonToPost() {

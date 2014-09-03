@@ -29,7 +29,7 @@ public class Answer {
 
     private Date date;
 
-    private String content;
+    private String body;
 
     private String questionId;
 
@@ -57,19 +57,19 @@ public class Answer {
         this.date = date;
     }
 
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
     public String getQuestionId() {
         return questionId;
     }
 
     public void setQuestionId(String questionId) {
         this.questionId = questionId;
+    }
+
+    public String getBody() {
+        return body;
+    }
+
+    public void setBody(String body) {
+        this.body = body;
     }
 }

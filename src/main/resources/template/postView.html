@@ -15,6 +15,33 @@
         {{currentpost.date}}
     </div>
     <br>
+    <div class="container" ng-repeat="answer in currentpost.answers">
+        <div class="container">
+            {{answer.body}}
+        </div>
+        <div class="container">
+            {{answer.userName}}
+        </div>
+        <div class="container">
+            {{answer.date}}
+        </div>
+        <br>
+    </div>
+
+    <form class="form-horizontal" role="form">
+        <div class="form-group">
+            <label for="username">
+                Your name:
+            </label>
+            <input ng-model="answer.userName" id="username" name="name" class="form-control" type="text">
+        </div>
+        <div class="form-group">
+            <label for="answer">Your answer:</label>
+            <textarea ng-model="answer.body" id="answer" name="answer" class="form-control">
+            </textarea>
+        </div>
+        <input ng-click="postanswer(answer, currentpost.id)" type="submit">
+    </form>
 
     <footer>
         <p>&copy; Xebia</p>

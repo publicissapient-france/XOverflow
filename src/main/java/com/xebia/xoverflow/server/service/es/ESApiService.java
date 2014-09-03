@@ -14,6 +14,9 @@ public interface ESApiService {
     @POST(ESPostRepositoryService.INDEX_PATH)
     public JsonObject createPost(@Body Post post);
 
+    @PUT(ESPostRepositoryService.INDEX_PATH + "/{postId}")
+    public JsonObject updatePost(@Body Post post, @Path("postId") String postId);
+
     @GET(ESPostRepositoryService.INDEX_PATH + "_search")
     public JsonObject getPost(@Query("q") String query);
 

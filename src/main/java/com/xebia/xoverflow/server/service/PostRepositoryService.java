@@ -38,4 +38,6 @@ public interface PostRepositoryService {
     List<Post> listLast10Posts();
 
     Post findPost(String id);
+
+    Post updatePost(Post post);
 }

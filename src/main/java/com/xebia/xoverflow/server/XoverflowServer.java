@@ -20,7 +20,6 @@ import static spark.Spark.*;
 
 public class XoverflowServer {
 
-
     private final PostRepositoryService repositoryService;
 
     private final ObjectMapper objectMapper;
@@ -59,10 +58,13 @@ public class XoverflowServer {
         });
 
         put("/post/:id/answer", (request, response) -> {
-            final Post post = repositoryService.findPost(request.params("id"));
-            post.getAnswers().add(parseAnswerFromRequest(request));
-
-            return postToJson(post);
+            final String questionId = request.params("id");
+            final Post post = repositoryService.findPost(questionId);
+            final Answer newAnswer = parseAnswerFromRequest(request);
+            newAnswer.setQuestionId(questionId);
+            post.getAnswers().add(newAnswer);
+            final Post postAnswer = repositoryService.updatePost(post);
+            return postToJson(postAnswer);
         });
 
         get("/post/:id", (request, response) -> {

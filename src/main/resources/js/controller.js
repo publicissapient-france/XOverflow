@@ -33,8 +33,16 @@ postControllers.controller('PostsController', ['$scope', '$http', '$routeParams'
         $scope.postquestion = function(question) {
             var response = $http.put("/post", question);
 
-            response.success(function (data){
-                $location.path("/post/" + data.id)
+            response.success(function (questionResult){
+                $location.path("/post/" + questionResult.id)
+            })
+        }
+
+        $scope.postanswer = function(answer, questionId) {
+            var response = $http.put("/post/" + questionId + "/answer", answer);
+
+            response.success(function (questionResult){
+                $scope.currentpost = questionResult;
             })
         }
 

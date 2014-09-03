@@ -16,6 +16,7 @@
  */
 package com.xebia.xoverflow.server.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -34,7 +35,7 @@ public class Post {
 
     private Date date;
 
-    private List<Answer> answers;
+    private List<Answer> answers = new ArrayList<>();
 
     public String getId() {
         return id;
