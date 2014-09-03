@@ -8,6 +8,7 @@ import com.xebia.xoverflow.server.service.PostRepositoryService;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.function.Function;
@@ -32,6 +33,7 @@ public class ESPostRepositoryService implements PostRepositoryService {
     @Override
     public Post create(Post post) {
         JsonObject response = esApiService.createPost(post);
+        post.setDate(new Date());
         post.setId(response.get("_id").getAsString());
         return post;
     }
@@ -88,7 +90,7 @@ public class ESPostRepositoryService implements PostRepositoryService {
                 Post res = new Post();
                 res.setSubject(json.get("subject").getAsString());
                 res.setBody(json.get("body").getAsString());
-                res.setUserName(json.get("userName").getAsString());
+                res.setUserName(json.get("user_name").getAsString());
 
                 return res;
             }
