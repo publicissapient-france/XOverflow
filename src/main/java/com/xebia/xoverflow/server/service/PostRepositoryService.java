@@ -18,6 +18,8 @@ package com.xebia.xoverflow.server.service;
 
 import com.xebia.xoverflow.server.model.Post;
 
+import java.util.List;
+
 /**
  * Created by slemesle on 03/09/2014.
  */
@@ -29,4 +31,9 @@ public interface PostRepositoryService {
      * @return
      */
     Post create(Post post);
+
+    /**
+     * Retrieve last 10 posts
+     */
+    List<Post> listLast10Posts();
 }
