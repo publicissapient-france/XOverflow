@@ -1,5 +1,6 @@
 package com.xebia.xoverflow.server.service.es;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -22,18 +23,20 @@ public class ESPostRepositoryService implements PostRepositoryService {
 
     public static final String INDEX_PATH = "/posts/post/";
 
-    public ESApiService esApiService;
+    private ESApiService esApiService;
+    private Gson gson;
 
     @Inject
-    public ESPostRepositoryService(ESApiService esApiService) {
+    public ESPostRepositoryService(ESApiService esApiService, Gson gson) {
         this.esApiService = esApiService;
+        this.gson = gson;
     }
 
 
     @Override
     public Post create(Post post) {
-        JsonObject response = esApiService.createPost(post);
         post.setDate(new Date());
+        JsonObject response = esApiService.createPost(post);
         post.setId(response.get("_id").getAsString());
         return post;
     }
@@ -42,7 +45,7 @@ public class ESPostRepositoryService implements PostRepositoryService {
     public List<Post> listLast10Posts() {
 
         List<Post> res = new ArrayList<>();
-        JsonObject response = esApiService.listPost();
+        JsonObject response = esApiService.listPost(10, "date:desc");
 
         JsonArray jsonPosts = extractPostsJson(response);
 
@@ -83,16 +86,11 @@ public class ESPostRepositoryService implements PostRepositoryService {
         return res;
     }
 
-    private static Function<JsonObject, Post> convertJsonToPost() {
+    private Function<JsonObject, Post> convertJsonToPost() {
         return new Function<JsonObject, Post>() {
             @Override
             public Post apply(JsonObject json) {
-                Post res = new Post();
-                res.setSubject(json.get("subject").getAsString());
-                res.setBody(json.get("body").getAsString());
-                res.setUserName(json.get("user_name").getAsString());
-
-                return res;
+                return gson.fromJson(json, Post.class);
             }
         };
 

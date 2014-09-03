@@ -18,7 +18,7 @@ public interface ESApiService {
     public JsonObject getPost(@Query("q") String query);
 
     @GET(ESPostRepositoryService.INDEX_PATH + "_search")
-    public JsonObject listPost();
+    public JsonObject listPost(@Query("size") int size, @Query("sort") String sort);
 
     
 }
