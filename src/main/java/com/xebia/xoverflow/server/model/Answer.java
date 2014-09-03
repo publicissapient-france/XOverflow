@@ -16,8 +16,60 @@
  */
 package com.xebia.xoverflow.server.model;
 
+import java.util.Date;
+
 /**
  * Created by slemesle on 03/09/2014.
  */
 public class Answer {
+
+    private String id;
+
+    private String userName;
+
+    private Date date;
+
+    private String content;
+
+    private String questionId;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getQuestionId() {
+        return questionId;
+    }
+
+    public void setQuestionId(String questionId) {
+        this.questionId = questionId;
+    }
 }

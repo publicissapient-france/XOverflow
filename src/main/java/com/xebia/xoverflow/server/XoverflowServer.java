@@ -1,6 +1,7 @@
 package com.xebia.xoverflow.server;
 
 import com.xebia.xoverflow.server.exception.BadRequestException;
+import com.xebia.xoverflow.server.model.Answer;
 import com.xebia.xoverflow.server.model.Post;
 import com.xebia.xoverflow.server.service.DaggerModule;
 import com.xebia.xoverflow.server.service.PostRepositoryService;
@@ -55,17 +56,14 @@ public class XoverflowServer {
         put("/post", (request, response) -> {
             Post post = parsePostFromRequest(request);
 
-            post = repositoryService.create(post);
+            return postToJson(repositoryService.create(post));
+        });
 
-            post = new Post();
-            post.setSubject("Qui a gagné le Hackathon ?");
-            post.setBody("Je voudrais connaitre l'identité du gagnant du Hackathon :)");
-            post.setDate(new Date());
-            post.setUserName("rbung");
-            post.setAnswers(new ArrayList<>());
-            post.setId("azertyuytrez");
-            return post;
-            //  return postToJson(post);
+        put("/post/:id/answer", (request, response) -> {
+            final Post post = repositoryService.findPost(request.params("id"));
+            post.getAnswers().add(parseAnswerFromRequest(request));
+//            repositoryService.
+            return null;
         });
 
         get("/post/:id", (request, response) -> {
@@ -75,24 +73,6 @@ public class XoverflowServer {
             return postToJson(res);
         });
 
-        get("/hello", (request, response) -> "Hello World!");
-
-    }
-
-    private List<Post> stubdedList() {
-        List<Post> res = new ArrayList<>();
-
-        for (int i = 0; i < 10; i++) {
-            Post post = new Post();
-            post.setSubject("Qui a gagné le Hackathon ?");
-            post.setBody("Je voudrais connaitre l'identité du gagnant du Hackathon :)");
-            post.setDate(new Date());
-            post.setUserName("rbung");
-            post.setAnswers(new ArrayList<>());
-            post.setId("azertyuytrez" + i);
-            res.add(post);
-        }
-        return res;
     }
 
     private Post parsePostFromRequest(Request request) {
@@ -103,6 +83,16 @@ public class XoverflowServer {
             throw new BadRequestException(e);
         }
         return post;
+    }
+
+    private Answer parseAnswerFromRequest(Request request) {
+        Answer answer;
+        try {
+            answer = objectMapper.readValue(request.body(), Answer.class);
+        } catch (IOException e) {
+            throw new BadRequestException(e);
+        }
+        return answer;
     }
 
     private String postToJson(Object objectToSerializeInJson) {
