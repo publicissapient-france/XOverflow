@@ -27,23 +27,15 @@ public class XoverflowServer {
 
         Node node = graph.get(Node.class);
         node.start();
-
-
         XoverflowServer xoverflowServer = graph.get(XoverflowServer.class);
-
-
-
-
         xoverflowServer.runServer();
-
-
     }
 
 
     private final ObjectMapper objectMapper;
 
     @Inject
-    public XoverflowServer(ObjectMapper mapper, PostRepositoryService repositoryService ) {
+    public XoverflowServer(ObjectMapper mapper, PostRepositoryService repositoryService) {
         this.objectMapper = mapper;
         this.repositoryService = repositoryService;
     }
@@ -57,9 +49,9 @@ public class XoverflowServer {
 
             List<Post> posts = repositoryService.listLast10Posts();
 
-             //posts = stubdedList();
+            //posts = stubdedList();
             return postToJson(posts);
-        } );
+        });
 
         // Create a post
         put("/post", (request, response) -> {
@@ -75,7 +67,7 @@ public class XoverflowServer {
             post.setAnswers(new ArrayList<>());
             post.setId("azertyuytrez");
             return post;
-          //  return postToJson(post);
+            //  return postToJson(post);
         });
 
         get("/hello", (request, response) -> "Hello World!");
@@ -92,7 +84,7 @@ public class XoverflowServer {
             post.setDate(new Date());
             post.setUserName("rbung");
             post.setAnswers(new ArrayList<>());
-            post.setId("azertyuytrez"+i);
+            post.setId("azertyuytrez" + i);
             res.add(post);
         }
         return res;
