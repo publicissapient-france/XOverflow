@@ -31,12 +31,8 @@ public class XoverflowServer {
 
         XoverflowServer xoverflowServer = graph.get(XoverflowServer.class);
 
-
-
-
         xoverflowServer.runServer();
 
-        node.stop();
     }
 
 
