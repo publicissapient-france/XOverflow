@@ -3,6 +3,7 @@ package com.xebia.xoverflow.server.service;
 import com.xebia.xoverflow.server.model.Post;
 import spark.utils.IOUtils;
 
+import javax.inject.Inject;
 import javax.mail.*;
 import java.util.List;
 import java.util.Properties;
@@ -15,6 +16,7 @@ public class MailPollerService {
 
     private final PostRepositoryService postRepositoryService;
 
+    @Inject
     public MailPollerService(PostRepositoryService postRepositoryService) {
         this.postRepositoryService = postRepositoryService;
     }
