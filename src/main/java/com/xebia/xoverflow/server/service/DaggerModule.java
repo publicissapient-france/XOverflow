@@ -17,16 +17,31 @@
 package com.xebia.xoverflow.server.service;
 
 import com.xebia.xoverflow.server.model.Post;
+import dagger.Module;
+import dagger.Provides;
+import org.codehaus.jackson.map.ObjectMapper;
+
+import javax.inject.Singleton;
 
 /**
  * Created by slemesle on 03/09/2014.
  */
-public interface PostRepositoryService {
+@Module
+public class DaggerModule {
 
-    /**
-     * Persist a Post in DB and return it
-     * @param post
-     * @return
-     */
-    Post create(Post post);
+
+    @Provides @Singleton ObjectMapper provideJacksonMapper() {
+        return new ObjectMapper();
+    }
+
+
+    @Provides @Singleton PostRepositoryService providePostRepository(){
+        return  new PostRepositoryService() {
+            @Override public Post create(Post post) {
+                return null;
+            }
+        };
+    }
+
+
 }
