@@ -40,12 +40,23 @@
 </div>
 !
 <div class="container" ng-controller="PostController">
-    <form class="form-control" action="">
-        Your name:<input class="form-control" type="text"><br>
-        Your subject:<input class="form-control" type="text"><br>
-        Your question: <textarea>
-        </textarea>
-        <br>
+    <form class="form-horizontal" role="form">
+        <div class="form-group">
+            <label for="username">
+                Your name:
+            </label>
+            <input id="username" name="name" class="form-control" type="text">
+        </div>
+        <div class="form-group">
+            <label for="subject">Your subject:
+            </label>
+            <input id="subject" name="subject" class="form-control" type="text">
+        </div>
+        <div class="form-group">
+            <label for="question">Your question:</label>
+            <textarea id="question" name="question" class="form-control">
+            </textarea>
+        </div>
         <input type="submit">
     </form>
 
@@ -54,7 +65,8 @@
     <footer>
         <p>&copy; Xebia</p>
     </footer>
-</div> <!-- /container -->
+</div>
+<!-- /container -->
 
 
 <!-- Bootstrap core JavaScript
