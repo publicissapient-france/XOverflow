@@ -62,6 +62,10 @@ public class DaggerModule {
         return new ESPostRepositoryService(esApiService, gson);
     }
 
+    @Provides @Singleton MailPollerService provideMaiPollerService(PostRepositoryService postRepositoryService){
+        return new MailPollerService(postRepositoryService);
+    }
+
     @Provides
     @Singleton
     Gson provideGson(){

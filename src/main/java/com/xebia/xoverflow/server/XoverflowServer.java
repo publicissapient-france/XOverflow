@@ -4,6 +4,8 @@ import com.xebia.xoverflow.server.exception.BadRequestException;
 import com.xebia.xoverflow.server.model.Answer;
 import com.xebia.xoverflow.server.model.Post;
 import com.xebia.xoverflow.server.service.DaggerModule;
+import com.xebia.xoverflow.server.service.MailPollerService;
+import com.xebia.xoverflow.server.service.PollerTask;
 import com.xebia.xoverflow.server.service.PostRepositoryService;
 import dagger.ObjectGraph;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -12,11 +14,15 @@ import spark.Request;
 
 import javax.inject.Inject;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
-import static spark.Spark.*;
+import static spark.Spark.get;
+import static spark.Spark.put;
+import static spark.Spark.staticFileLocation;
 
 public class XoverflowServer {
 
@@ -24,7 +30,9 @@ public class XoverflowServer {
 
     private final ObjectMapper objectMapper;
 
-    public static void main(String[] args) {
+    private final MailPollerService mailPollerService;
+
+    public static void main(String[] args) throws ExecutionException, InterruptedException {
         ObjectGraph graph = ObjectGraph.create(DaggerModule.class);
 
         Node node = graph.get(Node.class);
@@ -34,12 +42,13 @@ public class XoverflowServer {
     }
 
     @Inject
-    public XoverflowServer(ObjectMapper mapper, PostRepositoryService repositoryService) {
+    public XoverflowServer(ObjectMapper mapper, PostRepositoryService repositoryService, MailPollerService mailPollerService) {
         this.objectMapper = mapper;
         this.repositoryService = repositoryService;
+        this.mailPollerService = mailPollerService;
     }
 
-    public void runServer() {
+    public void runServer() throws ExecutionException, InterruptedException {
         staticFileLocation("/");
 
         // Get All posts
@@ -74,6 +83,8 @@ public class XoverflowServer {
             return postToJson(res);
         });
 
+        ExecutorService pool = Executors.newScheduledThreadPool(1);
+        pool.submit(new PollerTask(mailPollerService));
     }
 
     private Post parsePostFromRequest(Request request) {
