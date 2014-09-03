@@ -36,4 +36,6 @@ public interface PostRepositoryService {
      * Retrieve last 10 posts
      */
     List<Post> listLast10Posts();
+
+    Post findPost(String id);
 }

@@ -67,32 +67,44 @@ public class XoverflowServer {
 
             post = repositoryService.create(post);
 
-            post = new Post();
-            post.setSubject("Qui a gagné le Hackathon ?");
-            post.setBody("Je voudrais connaitre l'identité du gagnant du Hackathon :)");
-            post.setDate(new Date());
-            post.setUserName("rbung");
-            post.setAnswers(new ArrayList<>());
-            post.setId("azertyuytrez");
-            return post;
-          //  return postToJson(post);
+            post = mockPost("0");
+
+            return postToJson(post);
+        });
+
+
+        get("/post/:id", (request, response) -> {
+            Post res;
+            String id = request.params("id");
+            res = repositoryService.findPost(id);
+
+
+            res = mockPost(id);
+            res.setId(id);
+            return postToJson(res);
         });
 
         get("/hello", (request, response) -> "Hello World!");
 
     }
 
+    private Post mockPost(String i) {
+        Post post;
+        post = new Post();
+        post.setSubject("Qui a gagné le Hackathon ?");
+        post.setBody("Je voudrais connaitre l'identité du gagnant du Hackathon :)");
+        post.setDate(new Date());
+        post.setUserName("rbung");
+        post.setAnswers(new ArrayList<>());
+        post.setId("azertyuytrez" +i );
+        return post;
+    }
+
     private List<Post> stubdedList() {
         List<Post> res = new ArrayList<>();
 
         for (int i = 0; i < 10; i++) {
-            Post post = new Post();
-            post.setSubject("Qui a gagné le Hackathon ?");
-            post.setBody("Je voudrais connaitre l'identité du gagnant du Hackathon :)");
-            post.setDate(new Date());
-            post.setUserName("rbung");
-            post.setAnswers(new ArrayList<>());
-            post.setId("azertyuytrez"+i);
+            Post post = mockPost(""+i);
             res.add(post);
         }
         return res;
