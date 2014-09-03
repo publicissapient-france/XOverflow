@@ -22,6 +22,8 @@ public class XoverflowServer {
 
     private final PostRepositoryService repositoryService;
 
+    private final ObjectMapper objectMapper;
+
     public static void main(String[] args) {
         ObjectGraph graph = ObjectGraph.create(DaggerModule.class);
 
@@ -37,15 +39,11 @@ public class XoverflowServer {
 
     }
 
-
-    private final ObjectMapper objectMapper;
-
     @Inject
     public XoverflowServer(ObjectMapper mapper, PostRepositoryService repositoryService) {
         this.objectMapper = mapper;
         this.repositoryService = repositoryService;
     }
-
 
     public void runServer() {
         staticFileLocation("/");
@@ -102,7 +100,6 @@ public class XoverflowServer {
         }
         return res;
     }
-
 
     private Post parsePostFromRequest(Request request) {
         Post post;
