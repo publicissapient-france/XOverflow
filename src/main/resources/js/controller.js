@@ -39,6 +39,7 @@ postControllers.controller('PostsController', ['$scope', '$http', '$routeParams'
         }
 
         $scope.viewPost = function(){
+            console.log('ICI');
             var response = $http.get("/post/"+$routeParams.id);
             response.success(function (data){
                 $scope.currentpost = data;
