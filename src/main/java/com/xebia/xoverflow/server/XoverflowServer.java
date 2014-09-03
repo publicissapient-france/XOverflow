@@ -47,8 +47,9 @@ public class XoverflowServer {
 
             List<Post> posts = repositoryService.listLast10Posts();
 
+             posts = stubdedList();
             return postToJson(posts);
-        });
+        } );
 
         // Create a post
         put("/post", (request, response) -> {
@@ -69,6 +70,22 @@ public class XoverflowServer {
 
         get("/hello", (request, response) -> "Hello World!");
 
+    }
+
+    private List<Post> stubdedList() {
+        List<Post> res = new ArrayList<>();
+
+        for (int i = 0; i < 10; i++) {
+            Post post = new Post();
+            post.setSubject("Qui a gagné le Hackathon ?");
+            post.setBody("Je voudrais connaitre l'identité du gagnant du Hackathon :)");
+            post.setDate(new Date());
+            post.setUserName("rbung");
+            post.setAnswers(new ArrayList<>());
+            post.setId("azertyuytrez");
+            res.add(post);
+        }
+        return res;
     }
 
 
