@@ -27,6 +27,7 @@ import com.xebia.xoverflow.server.service.es.ESPostRepositoryService;
 import dagger.Module;
 import dagger.Provides;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.elasticsearch.action.admin.indices.create.CreateIndexRequestBuilder;
 import org.elasticsearch.node.Node;
 import org.elasticsearch.node.NodeBuilder;
 import retrofit.RestAdapter;
@@ -34,6 +35,7 @@ import retrofit.converter.GsonConverter;
 
 import javax.inject.Singleton;
 import java.util.Date;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by slemesle on 03/09/2014.
@@ -73,6 +75,25 @@ public class DaggerModule {
         Node res;
 
         res = NodeBuilder.nodeBuilder().data(true).clusterName("xoverflow").local(true).node();
+        CreateIndexRequestBuilder posts = res.client().admin().indices().prepareCreate("posts");
+
+        posts.setSource("    \"settings\" : {\n" +
+                "        \"number_of_shards\" : 1\n" +
+                "    },\n" +
+                "    \"mappings\" : {\n" +
+                "        \"post\" : {\n" +
+                "            \"_source\" : { \"enabled\" : true },\n" +
+                "            \"properties\" : {\n" +
+                "                \"subject\" : { \"type\" : \"string\" }\n" +
+                "            }\n" +
+                "        }\n" +
+                "    }\n" +
+                "}");
+        try {
+            posts.execute().get();
+        } catch (ExecutionException|InterruptedException e) {
+             throw new RuntimeException(e);
+        }
         return res;
     }
 
