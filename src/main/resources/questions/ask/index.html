@@ -45,19 +45,19 @@
             <label for="username">
                 Your name:
             </label>
-            <input id="username" name="name" class="form-control" type="text">
+            <input ng-model="question.userName" id="username" name="name" class="form-control" type="text">
         </div>
         <div class="form-group">
             <label for="subject">Your subject:
             </label>
-            <input id="subject" name="subject" class="form-control" type="text">
+            <input ng-model="question.subject" id="subject" name="subject" class="form-control" type="text">
         </div>
         <div class="form-group">
             <label for="question">Your question:</label>
-            <textarea id="question" name="question" class="form-control">
+            <textarea ng-model="question.body" id="question" name="question" class="form-control">
             </textarea>
         </div>
-        <input type="submit">
+        <input ng-click="postquestion(question)" type="submit">
     </form>
 
     <br>
