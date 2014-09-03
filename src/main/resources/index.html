@@ -48,9 +48,11 @@
     <hr/>
 
     <div class="container">
-        <ul class="list-group">
-            <li ng-repeat="post in posts" class="list-group-item">{{post.subject}}</li>
-        </ul>
+        <div class="row">
+            <div class="col-md-4">{{post.date}}</div>
+            <div class="col-md-4">{{post.subject}}</div>
+            <div class="col-md-4">{{post.userName}}</div>
+        </div>
     </div>
 
 
