@@ -42,19 +42,19 @@
 !
 <div class="container" ng-controller="PostController" ng-init="initposts()">
     <div class="container">
-        <a href="/questions/ask/index.html" class="btn btn-primary" >Post a question</a>
+        <a href="/questions/ask/index.html" class="btn btn-primary">Post a question</a>
     </div>
 
     <hr/>
 
     <div class="container">
-        <div class="row">
-            <div class="col-md-4">{{post.date}}</div>
-            <div class="col-md-4">{{post.subject}}</div>
-            <div class="col-md-4">{{post.userName}}</div>
+        <div class="list-group" ng-repeat="post in posts">
+            <a href="#" class="list-group-item" ng-class="{active: isActive}" ng-mouseenter="isActive = true" ng-mouseleave="isActive = false">
+                <div class="list-group-item-heading">{{post.date}} / {{post.userName}}</div>
+                <div class="list-group-item-text">{{post.subject}}</div>
+            </a>
         </div>
     </div>
-
 
     <footer>
         <p>&copy; Xebia</p>
