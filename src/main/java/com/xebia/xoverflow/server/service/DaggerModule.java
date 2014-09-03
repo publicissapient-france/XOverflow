@@ -22,6 +22,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.internal.bind.DateTypeAdapter;
 import com.xebia.xoverflow.server.XoverflowServer;
 import com.xebia.xoverflow.server.model.Post;
+import com.xebia.xoverflow.server.service.es.ESApiService;
 import com.xebia.xoverflow.server.service.es.ESPostRepositoryService;
 import dagger.Module;
 import dagger.Provides;
@@ -54,15 +55,18 @@ public class DaggerModule {
         return new ESPostRepositoryService();
     }
 
-    @Provides @Singleton RestAdapter provideRestAdapter(){
+    @Provides @Singleton
+    ESApiService provideESApiService(){
 
         Gson gson = new GsonBuilder()
                 .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
                 .registerTypeAdapter(Date.class, new DateTypeAdapter())
                 .create();
 
-        return new RestAdapter.Builder().setEndpoint("http://127.0.0.1:9200/")
+        RestAdapter restAdapter = new RestAdapter.Builder().setEndpoint("http://127.0.0.1:9200/")
                 .setConverter(new GsonConverter(gson)).build();
+
+        return restAdapter.create(ESApiService.class);
     }
 
     @Provides @Singleton Node provideEsNode(){
