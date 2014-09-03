@@ -11,4 +11,11 @@ angular.module('XOverFlow', [])
             $http.put("/post", question);
         }
 
+        $scope.currentpost = {subject:'Question', body:'toto', username:'username', date:'date'};
+
+        $scope.readquestion = function(questionid) {
+//           return $http.get("/post" + questionid);
+            return {subject:'Question', body:'toto', username:'username', date:'date'};
+        }
+
     }]);
