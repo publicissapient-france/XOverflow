@@ -19,7 +19,7 @@ public class PollerTask implements Callable<Void> {
     @Override
     public Void call() throws Exception {
         while(!Thread.interrupted()) {
-            LOGGER.info("Calling mailPollerService");
+            LOGGER.debug("Calling mailPollerService");
             mailPollerService.poll();
             Thread.sleep(5000);
         }
