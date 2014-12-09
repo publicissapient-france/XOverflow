@@ -88,7 +88,7 @@ public class MailPollerService {
 
         } catch (Exception e) {
 
-            e.printStackTrace();
+           // e.printStackTrace();
 
         } finally { // Ne pas oublier de fermer tout ça !
 

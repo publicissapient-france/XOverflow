@@ -139,7 +139,7 @@ The [optimized Google Universal Analytics
 snippet](http://mathiasbynens.be/notes/async-analytics-snippet#universal-analytics)
 included with HTML5 Boilerplate includes something like this:
 
-```js
+```webapp.js
 ga('create', 'UA-XXXXX-X', 'auto'); ga('send', 'pageview');
 ```
 
@@ -158,7 +158,7 @@ no personal (trackable) data is transferred to the US. You can do that with
 parameter](https://developers.google.com/analytics/devguides/collection/analyticsjs/advanced#anonymizeip)
 before sending any events/pagviews. In use it looks like this:
 
-```js
+```webapp.js
 ga('create', 'UA-XXXXX-X', 'auto');
 ga('set', 'anonymizeIp', true);
 ga('send', 'pageview');
@@ -169,9 +169,9 @@ ga('send', 'pageview');
 An article by @JangoSteve explains how to [track jQuery AJAX requests in Google
 Analytics](http://www.alfajango.com/blog/track-jquery-ajax-requests-in-google-analytics/).
 
-Add this to `plugins.js`:
+Add this to `plugins.webapp.js`:
 
-```js
+```webapp.js
 /*
  * Log all jQuery AJAX requests to Google Analytics
  * See: http://www.alfajango.com/blog/track-jquery-ajax-requests-in-google-analytics/
@@ -187,7 +187,7 @@ if (typeof ga !== "undefined" && ga !== null) {
 
 Add this function after `ga` is defined:
 
-```js
+```webapp.js
 (function(window){
     var undefined,
         link = function (href) {
@@ -212,7 +212,7 @@ Add this function after `ga` is defined:
 
 Add this function after `ga` is defined:
 
-```js
+```webapp.js
 $(function(){
     var isDuplicateScrollEvent,
         scrollTimeStart = new Date,
@@ -422,7 +422,7 @@ plugin](http://www.google.com/search?ie=UTF-8&q=how+to+make+browser+search+plugi
   headers](https://github.com/h5bp/html5-boilerplate/issues/804).
 
 * Screen readers currently have less-than-stellar support for HTML5 but the JS
-  script [accessifyhtml5.js](https://github.com/yatil/accessifyhtml5.js) can
+  script [accessifyhtml5.webapp.js](https://github.com/yatil/accessifyhtml5.webapp.js) can
   help increase accessibility by adding ARIA roles to HTML5 elements.
 
 
@@ -621,12 +621,12 @@ necessary to add media queries to detect which image to load. Here is an
 example for a retina iPhone:
 
 ```html
-<link rel="apple-touch-startup-image" media="(max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2)" href="img/startup-retina.png">
+<link rel="apple-touch-startup-image" media="(max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2)" href="webapp.img/startup-retina.png">
 ```
 
 However, it is possible to detect which start-up image to use with JavaScript.
 The Mobile Boilerplate provides a useful function for this. Please see
-[helpers.js](https://github.com/h5bp/mobile-boilerplate/blob/v4.1.0/js/helper.js#L336-L383)
+[helpers.webapp.js](https://github.com/h5bp/mobile-boilerplate/blob/v4.1.0/webapp.js/helper.webapp.js#L336-L383)
 for the implementation.
 
 

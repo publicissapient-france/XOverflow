@@ -5,13 +5,13 @@
 ## Getting started
 
 * [Usage](usage.md) — Overview of the project contents.
-* [FAQ](faq.md) — Frequently asked questions along with their answers.
+* [FAQ](faq.md) — Frequently asked webapp.questions along with their answers.
 
 ## HTML5 Boilerplate core
 
 * [HTML](html.md) — Guide to the default HTML.
-* [CSS](css.md) — Guide to the default CSS.
-* [JavaScript](js.md) — Guide to the default JavaScript.
+* [CSS](webapp.css.md) — Guide to the default CSS.
+* [JavaScript](webapp.js.md) — Guide to the default JavaScript.
 * [Everything else](misc.md).
 
 ## Development

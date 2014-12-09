@@ -49,7 +49,7 @@ public class XoverflowServer {
     }
 
     public void runServer() throws ExecutionException, InterruptedException {
-        staticFileLocation("/");
+        staticFileLocation("/webapp");
 
         // Get All posts
         get("/posts", (request, response) -> {

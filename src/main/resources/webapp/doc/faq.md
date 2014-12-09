@@ -1,7 +1,7 @@
 [HTML5 Boilerplate homepage](http://html5boilerplate.com) | [Documentation
 table of contents](TOC.md)
 
-# Frequently asked questions
+# Frequently asked webapp.questions
 
 * [Why is the URL for jQuery without
   `http`?](#why-is-the-url-for-jquery-without-http)
@@ -14,7 +14,7 @@ table of contents](TOC.md)
 * [Do I need to upgrade my site each time a new version of HTML5 Boilerplate is
   released?](#do-i-need-to-upgrade-my-site-each-time-a-new-version-of-html5-boilerplate-is-released)
 * [Where can I get help with support
-  questions?](#where-can-i-get-help-with-support-questions)
+  webapp.questions?](#where-can-i-get-help-with-support-webapp.questions)
 
 --
 
@@ -45,10 +45,10 @@ Setting up a local server can be done using:
 
 ### Why don't you automatically load the latest version of jQuery from the Google CDN?
 
-The [file](http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js) to which
+The [file](http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.webapp.js) to which
 the Google CDN points to is [no longer updated and will stay locked at version
 `1.11.1` in order to prevent inadvertent web
-breakage](http://blog.jquery.com/2014/07/03/dont-use-jquery-latest-js/).
+breakage](http://blog.jquery.com/2014/07/03/dont-use-jquery-latest-webapp.js/).
 
 In general, version updating should be an intentional decision! You shouldn't
 include a URL that will always point to the latest version, as that version:
@@ -82,7 +82,7 @@ was built. However, there is nothing stopping you from trying to work in the
 latest changes, but you'll have to assess the costs/benefits of doing so.
 
 
-### Where can I get help with support questions?
+### Where can I get help with support webapp.questions?
 
 Please ask for help on
-[StackOverflow](http://stackoverflow.com/questions/tagged/html5boilerplate).
+[StackOverflow](http://stackoverflow.com/webapp.questions/tagged/html5boilerplate).

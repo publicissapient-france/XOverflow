@@ -5,7 +5,7 @@ table of contents](TOC.md)
 
 HTML5 Boilerplate's CSS includes:
 
-* [Normalize.css](#normalizecss)
+* [Normalize.webapp.css](#normalizecss)
 * [Useful defaults](#useful-defaults)
 * [Common helpers](#common-helpers)
 * [Placeholder media queries](#media-queries)
@@ -16,14 +16,14 @@ conditional style sheets, or Modernizr, and it is ready to use no matter what
 your development preferences happen to be.
 
 
-## Normalize.css
+## Normalize.webapp.css
 
 In order to make browsers render all elements more consistently and in line
 with modern standards, we include
-[Normalize.css](http://necolas.github.io/normalize.css/) — a modern, HTML5-ready
+[Normalize.webapp.css](http://necolas.github.io/normalize.webapp.css/) — a modern, HTML5-ready
 alternative to CSS resets.
 
-As opposed to CSS resets, Normalize.css:
+As opposed to CSS resets, Normalize.webapp.css:
 
 * targets only the styles that need normalizing
 * preserves useful browser defaults rather than erasing them
@@ -32,19 +32,19 @@ As opposed to CSS resets, Normalize.css:
 * doesn't clutter the debugging tools
 * has better documentation
 
-For more information about Normalize.css, please refer to its [project
-page](http://necolas.github.com/normalize.css/), as well as this
-[blog post](http://nicolasgallagher.com/about-normalize-css/).
+For more information about Normalize.webapp.css, please refer to its [project
+page](http://necolas.github.com/normalize.webapp.css/), as well as this
+[blog post](http://nicolasgallagher.com/about-normalize-webapp.css/).
 
 
 ## Useful defaults
 
-Several base styles are included that build upon `Normalize.css`. These
+Several base styles are included that build upon `Normalize.webapp.css`. These
 styles:
 
 * provide basic typography settings that improve text readability
 * protect against unwanted `text-shadow` during text highlighting
-* tweak the default alignment of some elements (e.g.: `img`, `video`,
+* tweak the default alignment of some elements (e.g.: `webapp.img`, `video`,
   `fieldset`, `textarea`)
 * style the prompt that is displayed to users using an outdated browser
 
@@ -70,7 +70,7 @@ visually, while still have its content accessible to screen readers.
 See also:
 
 * [CSS in Action: Invisible Content Just for Screen Reader
-  Users](http://www.webaim.org/techniques/css/invisiblecontent/)
+  Users](http://www.webaim.org/techniques/webapp.css/invisiblecontent/)
 * [Hiding content for
   accessibility](http://snook.ca/archives/html_and_css/hiding-content-for-accessibility)
 * [HTML5 Boilerplate - Issue #194](https://github.com/h5bp/html5-boilerplate/issues/194/).
@@ -104,7 +104,7 @@ HTML5 Boilerplate makes it easy for you to get started with a
 [_mobile first_](http://www.lukew.com/presos/preso.asp?26) and [_responsive web
 design_](http://www.alistapart.com/articles/responsive-web-design/) approach to
 development. But it's worth remembering that there are [no silver
-bullets](http://www.cloudfour.com/css-media-query-for-mobile-is-fools-gold/).
+bullets](http://www.cloudfour.com/webapp.css-media-query-for-mobile-is-fools-gold/).
 
 We include placeholder media queries to help you build up your mobile styles for
 wider viewports and high-resolution displays. It's recommended that you adapt
@@ -145,16 +145,16 @@ At printing time, these styles will:
   that they should:
 
   * ensure the table header (`<thead>`) is [printed on each page spanned by the
-    table](http://css-discuss.incutio.com/wiki/Printing_Tables)
+    table](http://webapp.css-discuss.incutio.com/wiki/Printing_Tables)
   * prevent block quotations, preformatted text, images and table rows from
     being split onto two different pages
   * ensure that headings never appear on a different page than the text they
     are associated with
   * ensure that
     [orphans and widows](http://en.wikipedia.org/wiki/Widows_and_orphans) do
-    [not appear on printed pages](http://css-tricks.com/almanac/properties/o/orphans/)
+    [not appear on printed pages](http://webapp.css-tricks.com/almanac/properties/o/orphans/)
 
-The print styles are included along with the other `css` to [avoid the
-additional HTTP request](http://www.phpied.com/delay-loading-your-print-css/).
+The print styles are included along with the other `webapp.css` to [avoid the
+additional HTTP request](http://www.phpied.com/delay-loading-your-print-webapp.css/).
 Also, they should always be included last, so that the other styles can be
 overwritten.

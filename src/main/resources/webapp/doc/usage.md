@@ -20,17 +20,17 @@ A basic HTML5 Boilerplate site initially looks something like this:
 
 ```
 .
-├── css
-│   ├── main.css
-│   └── normalize.css
-├── doc
-├── img
-├── js
-│   ├── main.js
-│   ├── plugins.js
+├── webapp.css
+│   ├── main.webapp.css
+│   └── normalize.webapp.css
+├── webapp.doc
+├── webapp.img
+├── webapp.js
+│   ├── main.webapp.js
+│   ├── plugins.webapp.js
 │   └── vendor
-│       ├── jquery.min.js
-│       └── modernizr.min.js
+│       ├── jquery.min.webapp.js
+│       └── modernizr.min.webapp.js
 ├── .htaccess
 ├── 404.html
 ├── apple-touch-icon-precomposed.png
@@ -43,22 +43,22 @@ A basic HTML5 Boilerplate site initially looks something like this:
 
 What follows is a general overview of each major part and how to use them.
 
-### css
+### webapp.css
 
 This directory should contain all your project's CSS files. It includes some
 initial CSS to help get you started from a solid foundation. [About the
-CSS](css.md).
+CSS](webapp.css.md).
 
-### doc
+### webapp.doc
 
 This directory contains all the HTML5 Boilerplate documentation. You can use it
 as the location and basis for your own project's documentation.
 
-### js
+### webapp.js
 
 This directory should contain all your project's JS files. Libraries, plugins,
 and custom code can all be included here. It includes some initial JS to help
-get you started. [About the JavaScript](js.md).
+get you started. [About the JavaScript](webapp.js.md).
 
 ### .htaccess
 
@@ -97,7 +97,7 @@ Edit this file to include any pages you need hidden from search engines.
 
 ### crossdomain.xml
 
-A template for working with cross-domain requests. [About
+A webapp.template for working with cross-domain requests. [About
 crossdomain.xml](crossdomain.md).
 
 ### Icons
@@ -109,4 +109,4 @@ refer to the [according documentation](extend.md#apple-touch-icons).
 
 You might want to check out Hans' handy [HTML5 Boilerplate Favicon and Apple
 Touch Icon
-PSD-Template](http://drublic.de/blog/html5-boilerplate-favicons-psd-template/).
+PSD-Template](http://drublic.de/blog/html5-boilerplate-favicons-psd-webapp.template/).

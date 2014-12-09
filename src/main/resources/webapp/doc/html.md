@@ -13,11 +13,11 @@ By default, HTML5 Boilerplate provides two `html` pages:
 ## `index.html`
 
 
-### The `no-js` class
+### The `no-webapp.js` class
 
-The `no-js` class is provided in order to allow you to more easily and
+The `no-webapp.js` class is provided in order to allow you to more easily and
 explicitly add custom styles based on whether JavaScript is disabled
-(`.no-js`) or enabled (`.js`). Using this technique also helps [avoid the
+(`.no-webapp.js`) or enabled (`.webapp.js`). Using this technique also helps [avoid the
 FOUC](http://paulirish.com/2009/avoiding-the-fouc-v3/).
 
 
@@ -27,7 +27,7 @@ Please consider specifying the language of your content by adding the `lang`
 attribute to `<html>` as in this example:
 
 ```html
-<html class="no-js" lang="en">
+<html class="no-webapp.js" lang="en">
 ```
 
 ### The order of the `<title>` and `<meta>` tags
@@ -125,7 +125,7 @@ file synchronously loaded at the top of the document.
 
 ## The content area
 
-The central part of the boilerplate template is pretty much empty. This is
+The central part of the boilerplate webapp.template is pretty much empty. This is
 intentional, in order to make the boilerplate suitable for both web page and
 web app development.
 
@@ -171,7 +171,7 @@ Further information:
 * [Optimizing the Google Universal Analytics
   Snippet](http://mathiasbynens.be/notes/async-analytics-snippet#universal-analytics)
 * [Introduction to
-  Analytics.js](https://developers.google.com/analytics/devguides/collection/analyticsjs/)
+  Analytics.webapp.js](https://developers.google.com/analytics/devguides/collection/analyticsjs/)
 
 **N.B.** The Google Universal Analytics snippet is included by default mainly
 because Google Analytics is [currently one of the most popular tracking
