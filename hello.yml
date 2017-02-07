@@ -1,4 +1,3 @@
-platform: linux
 
 resources:
   - name: core-repository
