@@ -4,7 +4,12 @@ resources:
     source:
       uri: https://github.com/xebia-france/XOverflow.git
       branch: enh/rewriteBaseCode
-
+  - name: xoverflow-image
+    type: docker-image
+    source:
+      repository: jpthiery/xoverflow
+      username: {{dockerLogin}}
+      password: {{dockerPassword}}
 jobs:
 - name: build and test
   plan:
@@ -25,4 +30,7 @@ jobs:
         args:
         - -exc
         - |
-          pwd && ls -l && cd git-repository && mvn clean install && cp target/xoverflow-*.jar ../built/xoverflow.jar
+          pwd && ls -l && cd git-repository && mvn clean install && cp target/xoverflow-*.jar ../built/xoverflow.jar && cp etc/docker/Dockerfile ../built/Dockerfile && ls -l ../built
+  - put: xoverflow-image
+    params:
+      build: built
