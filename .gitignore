@@ -1,4 +1,16 @@
 .idea
+<<<<<<< HEAD
 target
 *.iml
 data
+=======
+*.iml
+/target
+*.class
+/jgiven-reports
+/dependency-reduced-pom.xml
+/workspace
+/velocity.log
+./minimesos
+/dep
+>>>>>>> Initial commit for rewrite of Xoverflow
