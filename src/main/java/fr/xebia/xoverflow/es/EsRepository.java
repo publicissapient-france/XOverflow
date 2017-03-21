@@ -6,6 +6,7 @@ import fr.xebia.xoverflow.model.Message;
 import fr.xebia.xoverflow.model.MessageThread;
 import fr.xebia.xoverflow.model.User;
 import fr.xebia.xoverflow.service.Repository;
+import fr.xebia.xoverflow.service.search.Criteria;
 import javaslang.control.Option;
 import javaslang.control.Try;
 import okhttp3.*;
@@ -14,9 +15,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.*;
 
 import static java.util.Objects.requireNonNull;
 import static org.apache.commons.lang.StringUtils.isBlank;
+import static org.apache.commons.lang.StringUtils.isNotBlank;
 
 public class EsRepository implements Repository {
 
@@ -58,7 +61,6 @@ public class EsRepository implements Repository {
     private static RequestBody constructPartialUpdateRequestBody(String json) {
         return RequestBody.create(JSON_MINETYPE, "{ \"doc\" : " + json + " }");
     }
-
 
     @Override
     public boolean addMessageToThread(String threadId, Message message) {
@@ -112,6 +114,126 @@ public class EsRepository implements Repository {
             throw new IllegalArgumentException("id must be defined.");
         }
         return get(id, USER, User.class);
+    }
+
+    @Override
+    public List<MessageThread> searchMessageThread(Criteria... criterion) {
+        requireNonNull(criterion, "criterion must be defined.");
+        return search(MessageThread.class, THREAD, criterion).getOrElse(new ArrayList<>());
+    }
+
+    protected static String generateQuery(List<Criteria> criterion) {
+        assert criterion != null : "criterion must be defined";
+
+        StringBuilder res = new StringBuilder("{\"query\": { \"bool\": { ");
+        StringBuilder must = new StringBuilder("\"must\": [");
+        StringBuilder should = new StringBuilder("\"should\": [");
+        StringBuilder mustNot = new StringBuilder("\"must_not\": [");
+        boolean isFirstMustCriteria = true;
+        boolean isFirstShouldCriteria = true;
+        boolean isFirstMustNotCriteria = true;
+        for (Criteria criteria : criterion) {
+            StringBuilder sb = should;
+            if (isFirstMustCriteria) {
+                isFirstMustCriteria = false;
+            } else {
+                must.append(",");
+            }
+            if (isFirstShouldCriteria) {
+                isFirstShouldCriteria = false;
+            } else {
+                should.append(",");
+            }
+            if (isFirstMustNotCriteria) {
+                isFirstMustNotCriteria = false;
+            } else {
+                mustNot.append(",");
+            }
+            switch (criteria.getOperator()) {
+                case MATCH:
+                case COULD_BE:
+                    sb = should;
+                    break;
+                case MUST_BE:
+                    sb = must;
+                    break;
+                case EXCLUDE:
+                    sb = mustNot;
+                    break;
+            }
+            sb.append("{ \"match\": { \"").append(criteria.getField()).append("\": \"").append(criteria.getValue()).append("\" }}");
+        }
+        must.append("]");
+        mustNot.append("]");
+        should.append("]");
+        res.append(must.toString()).append(",");
+        res.append(mustNot.toString()).append(",");
+        res.append(should.toString());
+        res.append("}}}");
+
+        return res.toString();
+    }
+
+    protected String computeUrl(String type, String action) {
+        String url = endWithSeparator(esUrl);
+        StringBuilder sb = new StringBuilder(url)
+                .append(INDEX_NAME.substring(1))
+                .append(endWithSeparator(type));
+
+        if (isNotBlank(action)) {
+            sb.append(action);
+        }
+        //return sb.toString();
+
+        return esUrl + INDEX_NAME + type + action;
+    }
+
+    protected String computeUrl(String type) {
+        return computeUrl(type, null);
+    }
+
+    private String endWithSeparator(String str) {
+        if (!str.endsWith("/")) {
+            str = str + SPERATOR;
+        }
+        return str;
+    }
+
+    protected <T> Option<List<T>> search(Class<T> classe, String esType, Criteria... criterionArray) {
+        requireNonNull(criterionArray, "criterion must be defined.");
+        List<Criteria> criterion = Arrays.asList(criterionArray);
+        JsonParser parser = new JsonParser();
+
+        Request.Builder builder = new Request.Builder();
+        String url = computeUrl(esType, SEARCH_ACTION);
+        String query = generateQuery(criterion);
+        if (LOGGER.isDebugEnabled()) {
+            JsonElement jsonEl = parser.parse(query);
+            Gson prettyGson = new GsonBuilder().setPrettyPrinting().create();
+            String json = prettyGson.toJson(jsonEl);
+            LOGGER.debug("Sending following query on url '{}':\n{}", url, json);
+        }
+        Request request = builder.url(url)
+                .post(RequestBody.create(JSON_MINETYPE, query))
+                .build();
+        Try<HttpResponse> httpResponses = executeRequest(request);
+        Try<List<T>> res = httpResponses.map(httpResponse -> {
+            String body = httpResponse.getBody();
+
+            JsonObject json = (JsonObject) parser.parse(body);
+
+            JsonArray hits = json.getAsJsonObject(HITS_ATTRIBUTES).getAsJsonArray(HITS_ATTRIBUTES);
+            Gson gson = this.gson.get();
+            List<T> dtos = new ArrayList<>();
+            for (JsonElement el : hits) {
+                JsonObject element = (JsonObject) el;
+                T dto = gson.fromJson(element.getAsJsonObject(SOURCE_ATTRIBUTE), classe);
+                dtos.add(dto);
+            }
+            return dtos;
+        });
+        return res.getOption();
+
     }
 
     protected Try<HttpResponse> executeRequest(Request request) {
@@ -220,5 +342,13 @@ public class EsRepository implements Repository {
     private static final MediaType JSON_MINETYPE = MediaType.parse("application/json");
 
     private static final String UPDATE = "/_update";
+
+    protected static final String SOURCE_ATTRIBUTE = "_source";
+
+    protected static final String HITS_ATTRIBUTES = "hits";
+
+    protected static final String SEARCH_ACTION = "_search";
+
+    protected static final char SPERATOR = '/';
 
 }

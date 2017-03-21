@@ -3,7 +3,11 @@ package fr.xebia.xoverflow.service;
 import fr.xebia.xoverflow.model.Message;
 import fr.xebia.xoverflow.model.MessageThread;
 import fr.xebia.xoverflow.model.User;
+import fr.xebia.xoverflow.service.search.Criteria;
 import javaslang.control.Option;
+
+import java.util.List;
+import java.util.Set;
 
 public interface Repository {
 
@@ -16,5 +20,7 @@ public interface Repository {
     Option<User> addUser(User user);
 
     Option<User> getUser(String id);
+
+    List<MessageThread> searchMessageThread(Criteria... criterion);
 
 }

@@ -10,9 +10,12 @@ public class UserLight implements Serializable {
 
     private final String username;
 
-    public UserLight(String id, String username) {
+    private final String email;
+
+    public UserLight(String id, String username, String email) {
         this.id = id;
         this.username = username;
+        this.email = email;
     }
 
     public String getId() {
@@ -23,11 +26,16 @@ public class UserLight implements Serializable {
         return username;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
     @Override
     public String toString() {
         return "User{" +
                 "id='" + id + '\'' +
                 ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
                 '}';
     }
 
@@ -63,6 +71,8 @@ public class UserLight implements Serializable {
 
         protected String username;
 
+        protected String email;
+
         protected Builder() {
             //  Nothing to do.
         }
@@ -75,7 +85,7 @@ public class UserLight implements Serializable {
 
         @Override
         public UserLight build() {
-            return new UserLight(id, username);
+            return new UserLight(id, username, email);
         }
 
         public void setId(String id) {
@@ -84,6 +94,11 @@ public class UserLight implements Serializable {
 
         public Builder setUsername(String username) {
             this.username = username;
+            return this;
+        }
+
+        public Builder setEmail(String email) {
+            this.email = email;
             return this;
         }
     }
