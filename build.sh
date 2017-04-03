@@ -20,18 +20,18 @@ if [[ $rc != 0 ]]; then
 fi
 popd
 
-echo "[-- Building BACK --]"
-rm -rf src/main/resources/webapp || true
-mkdir -p src/main/resources/webapp
+if [[ "$#" -eq 0 ]]; then
+  echo "[-- Building BACK --]"
+  rm -rf src/main/resources/webapp || true
+  mkdir -p src/main/resources/webapp
 
-if [[ -z $1 ]]; then
   tar zxvf ui/docker/target/xoverflow-ui.tar.gz -C src/main/resources/webapp
-  docker run -it --rm  -v "$PWD":/usr/src/mymaven -w /usr/src/mymaven maven:3-jdk-8 /bin/bash -c 'mvn clean install && chmod -R 777 target'
+  docker run -it --rm  -v "$PWD":/usr/src/mymaven -w /usr/src/mymaven maven:3-jdk-9 /bin/bash -c 'mkdir -p /root/.m2/ && mvn clean install && chmod -R 777 target'
 
   mkdir -p target/docker/ui | true
 
   cp src/main/docker/local/Dockerfile target/docker/
-  artifact=$(ls target | egrep xoverflow-.*-runnable.jar)
-  cp target/$artifact target/docker/xoverflow.jar
+  artifact=$(ls runner/target | egrep xoverflow-.*.jar)
+  cp runner/target/$artifact target/docker/xoverflow.jar
   docker build -t="xebiafr/xoverflow-ui" target/docker/
 fi

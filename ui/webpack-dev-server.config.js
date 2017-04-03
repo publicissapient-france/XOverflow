@@ -47,6 +47,9 @@ const config = {
       },{
         test: /\.css$/,
         loader: 'css-loader'
+      },{
+        test: /\.json/,
+        loader: 'json-loader'
       }
     ],
   },

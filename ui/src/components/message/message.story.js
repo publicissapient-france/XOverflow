@@ -11,6 +11,7 @@ import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import Message from "./Message";
 import injectTapEventPlugin from "react-tap-event-plugin";
 import "../../../fonts/index.css";
+import "../../www/hightlight.css";
 import moment from "moment";
 
 injectTapEventPlugin();
@@ -40,6 +41,9 @@ storiesOf('Messages', module).addDecorator((story) => (
   ))
   .add('message with author without mail', () => (
     <Message author={author_without_mail} date_publication={getDate(now)} content={lipsum}/>
+  ))
+  .add('message editing', () => (
+    <Message author={author_without_mail} date_publication={getDate(now)} content={lipsum} edit={true}/>
   ))
 
 const jpascal = {
