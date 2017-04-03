@@ -1,0 +1,68 @@
+
+resources:
+  - name: core-repository
+    type: git
+    source:
+      uri: https://github.com/kodokojo/kodokojo.git
+  - name: monitor-repository
+    type: git
+    source:
+      uri: https://github.com/kodokojo/monitor.git
+      branch: master
+  - name: maven-image
+    type: docker-image
+    source:
+      repository: maven:3.3.3-jdk-8
+
+jobs:
+  - name: test and build core
+    plan:
+      - get: core-repository
+      - task: build-example-project
+        file: example-repository/scripts/concourse/build.yaml
+      - put: example-image
+        params:
+          build: example-built
+          tag: example-version/version
+      - put: example-kpm
+        params:
+          version: example-version/version
+          dir: example-repository/scripts/k8s
+          force: true
+      - put: example-version
+        params: {file: example-version/version}
+
+  - name: integration
+    plan:
+      - aggregate:
+        - get: example-repository
+          passed:
+            - example-release
+        - get: example-version
+          passed:
+            - example-release
+        - get: example-image
+          passed:
+            - example-release
+        - get: example-kpm
+          trigger: true
+          passed:
+            - example-release
+      - task: deploy-to-k8s
+        file: example-repository/scripts/concourse/deploy.yaml
+        params:
+            KUBE_PASSWORD: {{kube-pass}}
+KUBE_URL: {{kube-url}}
+
+jobs:
+- name: hello-world
+  plan:
+  - task: say-hello
+    config:
+      platform: linux
+      image_resource:
+        type: docker-image
+        source: {repository: ubuntu}
+      run:
+        path: echo
+        args: ["Hello, world!"]

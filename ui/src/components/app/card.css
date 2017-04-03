@@ -1,0 +1,9 @@
+div .card {
+    background-color: bisque;
+}
+@media screen and (max-width: 500px) {
+    div .card {
+        padding: 0;
+        background-color: brown;
+    }
+}
